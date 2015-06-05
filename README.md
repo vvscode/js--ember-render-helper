@@ -5,9 +5,13 @@ Render helper for Ember.js ( Allow render components dynamically )
 Sometimes we need to render component by name, which stores at some property. For such cases there are several workarounds. 
 
 You can read next links:
+
 http://discuss.emberjs.com/t/programmatically-rendering-ember-components/6986
+
 http://stackoverflow.com/questions/25946805/how-to-dynamically-load-ember-components-by-name-in-a-template
+
 https://stackoverflow.com/questions/18972202/how-can-i-invoke-an-ember-component-dynamically-via-a-variable
+
 etc.
 
 ##Solutions
