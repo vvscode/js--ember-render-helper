@@ -1,10 +1,8 @@
-var each = Ember.$.each;
-var merge = Ember.merge;
-var get = Ember.get;
+const { Logger, isArray, merge, get, $: { each }, __loader } = Ember;
 
 // import from ember-htmlbars/system/lookup-helper
 // todo: find more correct way to import it
-var lookupHelper = Ember.__loader.require('ember-htmlbars/system/lookup-helper').default;
+const { default: lookupHelper } = __loader.require('ember-htmlbars/system/lookup-helper');
 
 /**
  * Render component by name
@@ -52,7 +50,7 @@ export default function(componentPath, options) {
   options.hashContexts = options.hashContexts || {};
   options.hashTypes = options.hashTypes || {};
 
-  const view = options.data.view;
+  const { data: { view } } = options;
   const resolvePath = function(path) {
       return view.getStream ? view.getStream(path).value() : path;
     };
@@ -101,14 +99,14 @@ export default function(componentPath, options) {
   let param;
   if ('_param' in hash) {
     param = view._getBindingForStream(hash._param).value() || hash._param;
-    if (!Ember.isArray(param)) {
+    if (!isArray(param)) {
       param = [param];
     }
     delete hash._param;
   }
 
   if (!helper) {
-    Ember.Logger.warn(`render-component can\'t find handler for "${component}"`);
+    Logger.warn(`render-component can\'t find handler for "${component}"`);
   } else if (param) {
     helper.call(this, param, options, options, options); // this strange params for instanceHelper: function(newView, hash, options, env) { at ember.debug.js
   } else {
