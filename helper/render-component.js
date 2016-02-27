@@ -47,20 +47,26 @@ const { default: lookupHelper } = __loader.require('ember-htmlbars/system/lookup
  paramsHash = { _param:paramName, someOption=someOptionValue }
  */
 export default function(componentPath, options = {}) {
+ // default value to prevent call errors
   options.hashContexts = options.hashContexts || {};
   options.hashTypes = options.hashTypes || {};
+  // extract variables
   const { data: { view } } = options;
-  
+  const { container } = view;
+  let { hash }  = options;
+  // util-functions to read value
   const resolvePath = (path) => (view.getStream ? view.getStream(path).value() : path);
+  // util-function to get helper/component by name
   const getHelper = (container, helperName) => lookupHelper(helperName, view, Ember.Handlebars).helperFunction;
   
+  // check if we can read property by passed value
   let component = resolvePath(componentPath) || componentPath;
-  if (typeof component !== 'string') {
-    component = componentPath;
-  }
-  const helper = getHelper(options.data.view.container, component);
-  let { hash }  = options;
-
+  // rallback if resolved component path is not a string
+  component = (typeof component !== 'string') ? componentPath : component;
+  
+  // get component/helper by name
+  const helper = getHelper(container, component);
+  
   // Allow to pass params as hash-object
   if ('___params' in hash) {
     let params = resolvePath(hash.___params);
@@ -68,7 +74,6 @@ export default function(componentPath, options = {}) {
     hash = merge(params, hash);
     options.hash = hash;
   }
-
   // Allow to specify which params should be resolved
   each(hash, (key, value) => {
     let newKey = key.replace('__', '');
