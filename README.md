@@ -1,3 +1,7 @@
+# Warning!
+
+It's better to check repo https://github.com/ciena-blueplanet/ember-spread - goals which we were leaded by whyle creating this helper totally covered with that addon, and it's definitely better that our approach. So code saved just for really hard cases (but think more than twice before starting use it )
+
 # ember-render-helper
 Render helper for Ember.js ( Allow render components dynamically )
 
